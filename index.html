@@ -1,61 +1,68 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="ru">
 
 <head>
-   <title>Video.js Markers Example</title>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Interactive Video</title>
 
-   <style>
-      p {
-         background-color: #eee;
-         border: thin solid #777;
-         padding: 10px;
-      }
-
-      .video-js {
-         float: left;
-      }
-
-      .event-list {
-         float: left;
-         border: black;
-         margin-left: 5px;
-         width: 200px;
-
-      }
-
-      .control {
-         clear: both;
-      }
-
-      #test {
-         background: red;
-      }
-
-      #test-2 {
-         background: green;
-      }
-   </style>
    <link href="./css/video-js.css" rel="stylesheet">
    <link href="./css/videojs.markers.css" rel="stylesheet">
+   <link href="./css/vjs-overlay.css" rel="stylesheet">
 
 </head>
 
 <body>
-   <div id=test>
-      test test
-   </div>
-   <div id=test-2>
-      test test
-   </div>
    <div>
       <video id="test_video" controls playsinline preload="auto" class="video-js vjs-default-skin vjs-big-play-centered"
          width="1000" height="562.5">
-         <source src="./video/oceans.mp4" type="video/mp4">
-         <source src="./video/oceans.webm" type="video/webm">
+         <div id=test>
+            <div aria-label="Interaction" data-index="" tabindex="-1" class="hotspot-interaction"
+               style="left: 36.2%;top: 11.2%;width: 34%;height: 17%;">
+               <div class="interaction-outer">
+                  <div class="interaction-inner hotspot rectangular">
+                     <a href="#"></a>
+                     <p class="hotspot-description hotspot-invisible"></p>
+                  </div>
+               </div>
+            </div>
+
+
+            <div aria-label="Interaction" tabindex="-1" class="hotspot-interaction"
+               style="left: 36.2%;top: 30.2%;width: 34%;height: 17%;">
+               <div class="interaction-outer">
+                  <div class="interaction-inner hotspot rectangular">
+                     <a href="#"></a>
+                     <p class="hotspot-description hotspot-invisible"></p>
+                  </div>
+               </div>
+            </div>
+
+            <div aria-label="Interaction" tabindex="-1" class="hotspot-interaction"
+               style="left: 36.2%;top: 49.3%;width: 34%;height: 17%;">
+               <div class="interaction-outer">
+                  <div class="interaction-inner hotspot rectangular">
+                     <a href="#"></a>
+                     <p class="hotspot-description hotspot-invisible"></p>
+                  </div>
+               </div>
+            </div>
+
+            <div aria-label="Interaction" tabindex="-1" class="hotspot-interaction"
+               style="left: 36.2%;top: 68.7%;width: 34%;height: 17%;">
+               <div class="interaction-outer">
+                  <div class="interaction-inner hotspot rectangular">
+                     <a href="#"></a>
+                     <p class="hotspot-description hotspot-invisible"></p>
+                  </div>
+               </div>
+            </div>
+
+         </div>
+         <source src="./video/Х5_1.mp4" type="video/mp4">
+         <source src="./video/Х5_1.webm" type="video/webm">
       </video>
-      <div class='event-list'>
-         <div><b>Events: </b></div>
-      </div>
    </div>
 
    <div class="control">
@@ -73,6 +80,7 @@
 <script src="./js/videojs-markers.min.js"></script>
 <script src='./js/videojs-markers.js'></script>
 <script src='./js/videojs-landscape-fullscreen.min.js'></script>
+<script src='./js/hotspot-interaction.js'></script>
 
 <script>
    // initialize video.js
@@ -96,30 +104,17 @@
 
    player.landscapeFullscreen();
 
-   // player.on('pause', function () {
-
-   //    // Modals are temporary by default. They dispose themselves when they are
-   //    // closed; so, we can create a new one each time the player is paused and
-   //    // not worry about leaving extra nodes hanging around.
-   //    var modal = player.createModal(document.getElementById('test'));
-
-   //    // When the modal closes, resume playback.
-   //    modal.on('modalclose', function () {
-   //       player.play();
-   //    });
-   // });
-
    //load the marker plugin
    player.markers({
       markerTip: {
          display: true,
          text: function (marker) {
-            return "Tip is a break: " + marker.text;
+            return marker.text;
          }
       },
       breakOverlay: {
          display: true,
-         displayTime: 3,
+         displayTime: player.duration(),
          text: function (marker) {
             return marker.teamplate;
          }
@@ -131,64 +126,19 @@
          player.pause();
       },
       markers: [{
-            time: 9.5,
-            text: "this",
-            teamplate: document.getElementById('test'),
-         },
-         {
-            time: 16,
-            text: "is",
-            teamplate: document.getElementById('test-2'),
-         },
-         {
-            time: 23.6,
-            text: "so",
-            duration: 4,
-         },
-         {
-            time: 28,
-            text: "cool"
-         },
-         {
-            time: 36,
-            text: ":)"
-         }
-      ]
+         time: 46,
+         teamplate: document.getElementById('test'),
+         correctIndex: 1,
+      }]
    });
+
+   hotspotInteraction();
 
    $(".next").click(function () {
       player.markers.next();
    });
    $(".prev").click(function () {
       player.markers.prev();
-   });
-   $(".remove").click(function () {
-      player.markers.remove([0, 1]);
-   })
-   $(".add").click(function () {
-      player.markers.add([{
-         time: 25,
-         text: "I'm NEW"
-      }]);
-   });
-   $(".updateTime").click(function () {
-      var markers = player.markers.getMarkers();
-      for (var i = 0; i < markers.length; i++) {
-         markers[i].time += 1;
-      }
-      player.markers.updateTime();
-   });
-
-   $(".reset").click(function () {
-      player.markers.reset([{
-            time: 40,
-            text: "I'm NEW"
-         },
-         {
-            time: 20,
-            text: "Brand new"
-         }
-      ]);
    });
    $(".destroy").click(function () {
       player.markers.destroy();

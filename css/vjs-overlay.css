@@ -1,0 +1,96 @@
+.video-js [tabIndex="-1"] {
+    outline: none;
+}
+
+.visibility-hidden {
+    visibility: hidden;
+    height: 0;
+    overflow: hidden;
+}
+
+.vjs-break-overlay {
+    height: 100% !important;
+    width: 100% !important;
+    background-color: transparent !important;
+}
+
+.vjs-break-overlay .vjs-break-overlay-text {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    text-align: left;
+}
+
+
+.hotspot-interaction {
+    box-shadow: none;
+    background: 0 0;
+    overflow: visible;
+    position: absolute;
+    width: 1.75em;
+    height: 1.75em;
+    z-index: 2;
+    outline: none;
+}
+
+.interaction-outer {
+    position: relative;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    overflow: visible;
+}
+
+.interaction-inner {
+    display: block;
+    width: 100%;
+    height: auto;
+    font-size: .875em;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.hotspot {
+    overflow: hidden;
+    cursor: pointer;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+}
+
+.hotspot > a{
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    display: table !important;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.hotspot>a:focus {
+    border-radius: 25px;
+    box-shadow: 0 0 0px 2px #179fff;
+    outline: none;
+}
+
+.hotspot-description {
+
+}
+.hotspot-visible {
+    color: inherit;
+}
+
+.hotspot-invisible {
+    color: transparent;
+}
+
+.rectangular {
+
+}
