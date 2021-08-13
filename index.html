@@ -1,0 +1,179 @@
+<!doctype html>
+<html>
+
+<head>
+   <title>Video.js Markers Example</title>
+
+   <style>
+      p {
+         background-color: #eee;
+         border: thin solid #777;
+         padding: 10px;
+      }
+
+      .video-js {
+         float: left;
+      }
+
+      .event-list {
+         float: left;
+         border: black;
+         margin-left: 5px;
+         width: 200px;
+
+      }
+
+      .control {
+         clear: both;
+      }
+      #test {
+         background: red;
+      }
+      #test-2 {
+         background: green;
+      }
+   </style>
+   <link href="http://vjs.zencdn.net/5.11.8/video-js.css" rel="stylesheet">
+   <link href="./videojs.markers.css" rel="stylesheet">
+
+</head>
+
+<body>
+   <div id=test>
+      test test
+   </div>
+   <div id=test-2>
+      test test
+   </div>
+   <div>
+      <video id="test_video" controls preload="none" class="video-js vjs-default-skin" width="1000" height="562.5">
+         <source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
+         <source src="http://vjs.zencdn.net/v/oceans.webm" type="video/webm">
+      </video>
+      <div class='event-list'>
+         <div><b>Events: </b></div>
+      </div>
+   </div>
+
+   <div class="control">
+      <div class='next'>Next</div>
+      <div class='prev'>Prev</div>
+      <div class='remove'>Remove</div>
+      <div class='add'>Add</div>
+      <div class='updateTime'>Move all markers right by 1 sec</div>
+      <div class='reset'>Reset</div>
+      <div class='destroy'>Destroy</div>
+   </div>
+</body>
+<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script src="http://vjs.zencdn.net/5.11.8/video.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-markers/0.7.0/videojs-markers.min.js"></script>
+<script src='./videojs-markers.js'></script>
+
+<script>
+   // initialize video.js
+   var player = videojs('test_video', {
+      playbackRates: [0.5, 1, 1.5, 2],
+      autoplay: true,
+   });
+
+   // player.on('pause', function () {
+
+   //    // Modals are temporary by default. They dispose themselves when they are
+   //    // closed; so, we can create a new one each time the player is paused and
+   //    // not worry about leaving extra nodes hanging around.
+   //    var modal = player.createModal(document.getElementById('test'));
+
+   //    // When the modal closes, resume playback.
+   //    modal.on('modalclose', function () {
+   //       player.play();
+   //    });
+   // });
+
+   //load the marker plugin
+   player.markers({
+      markerTip: {
+         display: true,
+         text: function (marker) {
+            return "Tip is a break: " + marker.text;
+         }
+      },
+      breakOverlay: {
+         display: true,
+         displayTime: 3,
+         text: function (marker) {
+            return marker.teamplate;
+         }
+      },
+      onMarkerReached: function (marker) {
+         player.pause();
+      },
+      onMarkerClick: function (marker) {
+         player.pause();
+      },
+      markers: [{
+            time: 9.5,
+            text: "this",
+            teamplate: document.getElementById('test'),
+         },
+         {
+            time: 16,
+            text: "is",
+            teamplate: document.getElementById('test-2'),
+         },
+         {
+            time: 23.6,
+            text: "so",
+            duration: 4,
+         },
+         {
+            time: 28,
+            text: "cool"
+         },
+         {
+            time: 36,
+            text: ":)"
+         }
+      ]
+   });
+
+   $(".next").click(function () {
+      player.markers.next();
+   });
+   $(".prev").click(function () {
+      player.markers.prev();
+   });
+   $(".remove").click(function () {
+      player.markers.remove([0, 1]);
+   })
+   $(".add").click(function () {
+      player.markers.add([{
+         time: 25,
+         text: "I'm NEW"
+      }]);
+   });
+   $(".updateTime").click(function () {
+      var markers = player.markers.getMarkers();
+      for (var i = 0; i < markers.length; i++) {
+         markers[i].time += 1;
+      }
+      player.markers.updateTime();
+   });
+
+   $(".reset").click(function () {
+      player.markers.reset([{
+            time: 40,
+            text: "I'm NEW"
+         },
+         {
+            time: 20,
+            text: "Brand new"
+         }
+      ]);
+   });
+   $(".destroy").click(function () {
+      player.markers.destroy();
+   })
+</script>
+
+</html>
