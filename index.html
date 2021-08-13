@@ -26,9 +26,11 @@
       .control {
          clear: both;
       }
+
       #test {
          background: red;
       }
+
       #test-2 {
          background: green;
       }
@@ -46,7 +48,8 @@
       test test
    </div>
    <div>
-      <video id="test_video" controls playsinline preload="none" class="video-js vjs-default-skin" width="1000" height="562.5">
+      <video id="test_video" controls playsinline preload="none" class="video-js vjs-default-skin vjs-big-play-centered"
+         width="1000" height="562.5">
          <source src="./video/oceans.mp4" type="video/mp4">
          <source src="./video/oceans.webm" type="video/webm">
       </video>
@@ -74,7 +77,15 @@
    // initialize video.js
    var player = videojs('test_video', {
       playbackRates: [0.5, 1, 1.5, 2],
+      controls: true,
       autoplay: true,
+      fluid: true,
+      fullscreenToggle: false,
+      controlBar: {
+         progressControl: {
+            seekBar: true,
+         },
+      }
    });
 
    // player.on('pause', function () {
